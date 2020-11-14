@@ -1,5 +1,5 @@
-var X = 100;
-var Y = 100;
+var X = 105;
+var Y = 105;
 
 document.addEventListener('DOMContentLoaded', (event) => {
     setupCanvas();  
@@ -39,10 +39,8 @@ function createSnake(ctx,x,y,r,n) {
         for (i=n-1; i>0; i--){
             snake[i] = snake[i-1];
         }
-        snake[0] = {x:x, y:y};
+        snake[0] = {x:X, y:Y};
     }
-
-
     createCircle(ctx, snake[0], r, "red");
     for (i=1; i<n; i++) {
         createCircle(ctx,snake[i],r, "white");
@@ -50,11 +48,12 @@ function createSnake(ctx,x,y,r,n) {
 }
 
 function draw(ctx) {
-    createSnake(ctx,X,Y,10,4);
-    if (X>10) 
-        X -=10;
-    else
-        Y -=10;
-
+    if (X<10){
+        createSnake(ctx,X,Y,10,4);
+        Y -=20;     
+    }else{
+        createSnake(ctx,X,Y,10,4);
+        X -=20;  
+    }                    
 }
 
