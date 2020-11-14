@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', (event) => {
     var c = document.getElementById("board");
     var ctx = c.getContext("2d");
-    snake(ctx,100,100,10,4);
+    setInterval(draw, 1000, ctx);
 });
 
 function circle(ctx,x,y,r,color) {
@@ -18,4 +18,9 @@ function snake(ctx,x,y,r,n) {
         circle(ctx,x+(r*i*2),y,r, "white");
     }
 }
-
+var x = 100;
+function draw(ctx) {
+    ctx.clearRect(0,0,500,500);
+    snake(ctx,x,100,10,4);
+    x -=5;   
+}
