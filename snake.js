@@ -1,26 +1,60 @@
+var X = 100;
+var Y = 100;
+
 document.addEventListener('DOMContentLoaded', (event) => {
-    var c = document.getElementById("board");
-    var ctx = c.getContext("2d");
-    setInterval(draw, 1000, ctx);
+    setupCanvas();  
 });
 
-function circle(ctx,x,y,r,color) {
+function setupCanvas() {
+    var c = document.getElementById("board");
+    var width = c.width;
+    var height = c.height;
+    var ctx = c.getContext("2d");
+    setInterval(preDraw, 500, ctx, width, height);
+}
+
+function preDraw(ctx, width, height) {
+    ctx.clearRect(0, 0, width, height);
+    draw(ctx);
+}
+
+function createCircle(ctx, point,r,color) {
     ctx.beginPath();
-    ctx.arc(x, y, r, 0, 2*Math.PI);
+    ctx.arc(point.x, point.y, r, 0, 2*Math.PI);
     ctx.fillStyle = color;
     ctx.fill();
     ctx.stroke();
 }
 
-function snake(ctx,x,y,r,n) {
-    circle(ctx,x,y,r, "red");
+var snake = [];
+
+
+function createSnake(ctx,x,y,r,n) {
+    if (snake.length == 0){
+        snake.push({x:x,y:y});
+        for (i=1; i<n; i++) {
+            snake.push({x:x+(r*i*2),y:y});
+        }
+    }else{
+        for (i=n-1; i>0; i--){
+            snake[i] = snake[i-1];
+        }
+        snake[0] = {x:x, y:y};
+    }
+
+
+    createCircle(ctx, snake[0], r, "red");
     for (i=1; i<n; i++) {
-        circle(ctx,x+(r*i*2),y,r, "white");
+        createCircle(ctx,snake[i],r, "white");
     }
 }
-var x = 100;
+
 function draw(ctx) {
-    ctx.clearRect(0,0,500,500);
-    snake(ctx,x,100,10,4);
-    x -=5;   
+    createSnake(ctx,X,Y,10,4);
+    if (X>10) 
+        X -=10;
+    else
+        Y -=10;
+
 }
+
