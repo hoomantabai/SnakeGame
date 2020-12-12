@@ -1,16 +1,42 @@
 var X = 105;
 var Y = 105;
+var radius = 5; 
+var moveRate = radius*2;
+
+var isLeft = true;
+var isRight = false;
+var isUp = false;
+var isDown = false;
 
 document.addEventListener('DOMContentLoaded', (event) => {
     setupCanvas();  
 });
+
+
+document.addEventListener('keydown', logKey);
+    
+
+function logKey(e) {
+    console.log(e);
+    if (e.keyCode == 37) {
+        console.log("GoingLeft");
+    }else if (e.keyCode == 38){
+        console.log("GoingUp");
+    }else if (e.keyCode == 39){
+        console.log("GoingRight");
+    }else if (e.keyCode == 40){
+        console.log("GoingDown"); 
+    }
+}
+
+
 
 function setupCanvas() {
     var c = document.getElementById("board");
     var width = c.width;
     var height = c.height;
     var ctx = c.getContext("2d");
-    setInterval(preDraw, 500, ctx, width, height);
+    setInterval(preDraw, 300, ctx, width, height);
 }
 
 function preDraw(ctx, width, height) {
@@ -39,7 +65,7 @@ function createSnake(ctx,x,y,r,n) {
         for (i=n-1; i>0; i--){
             snake[i] = snake[i-1];
         }
-        snake[0] = {x:X, y:Y};
+        snake[0] = {x:x, y:y};
     }
     createCircle(ctx, snake[0], r, "red");
     for (i=1; i<n; i++) {
@@ -49,11 +75,12 @@ function createSnake(ctx,x,y,r,n) {
 
 function draw(ctx) {
     if (X<10){
-        createSnake(ctx,X,Y,10,4);
-        Y -=20;     
+        createSnake(ctx,X,Y,radius,4);
+        Y -=moveRate;     
     }else{
-        createSnake(ctx,X,Y,10,4);
-        X -=20;  
-    }                    
+        createSnake(ctx,X,Y,radius,4);
+        X -=moveRate;
+    }
 }
+
 
